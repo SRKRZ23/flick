@@ -19,6 +19,9 @@
       </array>
     </dict>
   </array>
+  <!-- Background utility: no Dock icon, lives in the menu bar; the wheel appears at the cursor. -->
+  <key>LSUIElement</key>
+  <true/>
   <key>NSHumanReadableCopyright</key>
   <string>© 2026 Sardor Razikov. MIT licensed.</string>
 </dict>

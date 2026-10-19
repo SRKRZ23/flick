@@ -12,10 +12,15 @@ default-run = "flick"
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = [] }
+# macos-private-api: transparent overlay window for the wheel at the cursor.
+tauri = { version = "2", features = ["macos-private-api", "tray-icon"] }
 tauri-plugin-global-shortcut = "2"
 serde = { version = "1", features = ["derive"] }
 flick-engine = { path = "../crates/flick-engine" }
+# Already in Tauri's own dependency tree (no extra compile): used by gesture.rs for
+# NSWorkspace (is Finder frontmost?) and NSWindow (raise the overlay without focus).
+objc2-app-kit = { version = "0.3", features = ["NSWorkspace", "NSRunningApplication", "NSWindow", "NSResponder", "NSPasteboard", "NSPasteboardItem"] }
+objc2-foundation = { version = "0.3", features = ["NSString", "NSArray", "NSURL"] }
 
 [[bin]]
 name = "flick"

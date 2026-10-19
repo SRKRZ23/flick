@@ -1,0 +1,79 @@
+{
+  "_comment": "Optional engines Flick can download on demand into ~/Library/Application Support/Flick/engines/<id>/. Every entry is pinned by URL + SHA-256 + size; the downloader refuses anything that doesn't match. Built-in macOS tools (sips, afconvert, avconvert, textutil, cupsfilter, PDFKit, zip/tar) need no download. ImageMagick, Ghostscript, poppler and mupdf have no official macOS binaries and stay Homebrew-only extras.",
+  "platform": "macos-arm64",
+  "engines": [
+    {
+      "id": "ffmpeg",
+      "name": "FFmpeg 9.0.2 (static)",
+      "unlocks": "every video and audio format, MP3/Opus encoding, WebP/AVIF/GIF/APNG images, subtitles",
+      "url": "https://ffmpeg.martin-riedl.de/download/macos/arm64/1789931890_9.0.2/ffmpeg.zip",
+      "sha256": "c8ed4c4e6978a03c485edbfe4e0a5dc2380f8a30bba5150531b31b094492d924",
+      "size": 28395699,
+      "kind": "zip",
+      "bin": "ffmpeg",
+      "license": "GPL-3.0 (static build with x264/x265); invoked as a separate process",
+      "source": "https://ffmpeg.martin-riedl.de/ (sidecar ffmpeg.zip.sha256 matches)"
+    },
+    {
+      "id": "ffprobe",
+      "name": "FFprobe 9.0.2 (static)",
+      "unlocks": "media inspection (duration, streams) for smarter wheels",
+      "url": "https://ffmpeg.martin-riedl.de/download/macos/arm64/1789931890_9.0.2/ffprobe.zip",
+      "sha256": "fcbe839537485eaee7a7a8bc5cbc0f90d53617e80943e8a5b2e31cb851197ea6",
+      "size": 28317701,
+      "kind": "zip",
+      "bin": "ffprobe",
+      "license": "GPL-3.0; separate process",
+      "source": "https://ffmpeg.martin-riedl.de/"
+    },
+    {
+      "id": "pandoc",
+      "name": "Pandoc 3.12.1",
+      "unlocks": "Markdown, HTML, EPUB, DOCX, RTF, reStructuredText, LaTeX and other markup conversions",
+      "url": "https://github.com/jgm/pandoc/releases/download/3.12.1/pandoc-3.12.1-arm64-macOS.zip",
+      "sha256": "c2146cf33a583f3ac93eccddf1bb662371d5cfcce1aad1c87ad860cca1435d46",
+      "size": 42313957,
+      "kind": "zip",
+      "bin": "pandoc-3.12.1-arm64/bin/pandoc",
+      "license": "GPL-2.0-or-later; separate process",
+      "source": "official GitHub release"
+    },
+    {
+      "id": "qpdf",
+      "name": "qpdf 12.4.2",
+      "unlocks": "PDF split, merge, page ranges, linearize, decrypt",
+      "url": "https://github.com/qpdf/qpdf/releases/download/v12.4.2/qpdf-12.4.2-bin-macos-arm64.zip",
+      "sha256": "62e46987a30ea167cbc530ccb22690aec3d8c812ed09979a941bcee92e504b79",
+      "size": 3269125,
+      "kind": "zip",
+      "bin": "bin/qpdf",
+      "keep_layout": true,
+      "license": "Apache-2.0",
+      "source": "official GitHub release (qpdf-12.4.2.sha256 published alongside)"
+    },
+    {
+      "id": "7zz",
+      "name": "7-Zip 23.01 (console)",
+      "unlocks": "7z, RAR, ISO, CAB and other archives; create 7z",
+      "url": "https://7-zip.org/a/7z2301-mac.tar.xz",
+      "sha256": "343eae9ccbbd8f68320adaaa3c87e0244cf39fad0fbec6b9d2cd3e5b0f8a5fbf",
+      "size": 1805532,
+      "kind": "tar.xz",
+      "bin": "7zz",
+      "license": "LGPL-2.1 (+ unRAR restriction)",
+      "source": "official 7-zip.org"
+    },
+    {
+      "id": "libreoffice",
+      "name": "LibreOffice 26.8.1",
+      "unlocks": "XLSX/PPTX/ODT/ODS/ODP and legacy Office formats → PDF and each other",
+      "url": "https://download.documentfoundation.org/libreoffice/stable/26.8.1/mac/aarch64/LibreOffice_26.8.1_MacOS_aarch64.dmg",
+      "sha256": "ca074e0b13571efb30a31fc531c5f95e997030637325e5d5de92d67aefdf0dfc",
+      "size": 298845477,
+      "kind": "dmg",
+      "bin": "LibreOffice.app/Contents/MacOS/soffice",
+      "license": "MPL-2.0",
+      "source": "official The Document Foundation (LibreOffice_26.8.1_MacOS_aarch64.dmg.sha256)"
+    }
+  ]
+}

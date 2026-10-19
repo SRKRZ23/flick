@@ -1,6 +1,6 @@
 {
   "identifier": "default",
   "description": "Core capability for Flick's main window: events (drag-drop) and window control.",
-  "windows": ["main"],
+  "windows": ["main", "wheel"],
   "permissions": ["core:default"]
 }
