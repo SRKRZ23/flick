@@ -1,7 +1,7 @@
 {
   "name": "flick-app",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Flick — a local, open-source file converter for macOS",
   "scripts": {
     "tauri": "tauri",

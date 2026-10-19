@@ -8,9 +8,14 @@ use flick_engine::*;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
+// Resolve through the engine's own lookup so this test also proves the
+// Finder-launch case (bare PATH without Homebrew): run it with
+//   env -i PATH=/usr/bin:/bin HOME=$HOME target/debug/examples/smoke
 fn run(bin: &str, args: &[&str]) {
-    let status = Command::new(bin)
+    let exe = resolve(bin).unwrap_or_else(|| panic!("{bin} not found in any search dir"));
+    let status = Command::new(&exe)
         .args(args)
+        .env("PATH", std::env::join_paths(search_dirs()).unwrap())
         .status()
         .unwrap_or_else(|e| panic!("could not run {bin}: {e}"));
     assert!(status.success(), "{bin} failed while preparing a sample input");

@@ -2,6 +2,7 @@
 //! module only builds argument lists and chains temp files between hops. It
 //! never loads a converter library in-process (keeps the MIT boundary clean).
 
+use crate::detect::{child_path, resolve};
 use crate::format::{category_of, ext_of_path, normalize_ext, Category};
 use crate::graph::{all_edges, Engine};
 use crate::planner::plan_route;
@@ -44,11 +45,43 @@ fn unique(dir: &Path, name: &str, ext: &str) -> PathBuf {
     cand
 }
 
+/// Homebrew formula that provides a tool (for the install hint).
+fn brew_for(bin: &str) -> &'static str {
+    match bin {
+        "magick" => "imagemagick",
+        "ffmpeg" => "ffmpeg",
+        "soffice" => "libreoffice",
+        "pandoc" => "pandoc",
+        "pdftoppm" => "poppler",
+        "mutool" => "mupdf-tools",
+        "qpdf" => "qpdf",
+        "gs" => "ghostscript",
+        "7z" | "7zz" => "sevenzip",
+        _ => "…",
+    }
+}
+
+/// Homebrew's 7-Zip is `7zz` (sevenzip) or `7z` (p7zip) — take whichever exists.
+fn seven_zip() -> &'static str {
+    if resolve("7z").is_some() {
+        "7z"
+    } else {
+        "7zz"
+    }
+}
+
+/// Run a tool by its resolved absolute path. A GUI app launched from Finder has a
+/// bare PATH, so both the lookup and the child's PATH (for helpers such as gs)
+/// come from `detect::search_dirs`, never from PATH alone.
 fn sh(bin: &str, args: &[&str]) -> Result<(), String> {
-    let out = Command::new(bin)
+    let exe = resolve(bin).ok_or_else(|| {
+        format!("`{bin}` is not installed. Install it with: brew install {}", brew_for(bin))
+    })?;
+    let out = Command::new(&exe)
         .args(args)
+        .env("PATH", child_path())
         .output()
-        .map_err(|e| format!("could not run `{bin}` ({e}). Install it with: brew install …"))?;
+        .map_err(|e| format!("could not run `{bin}` ({e})"))?;
     if out.status.success() {
         Ok(())
     } else {
@@ -309,7 +342,7 @@ pub fn zip_together(paths: &[String], out_dir: &Path, fmt: &str) -> ConvertOutco
     for p in paths {
         args.push(p);
     }
-    match sh("7z", &args) {
+    match sh(seven_zip(), &args) {
         Ok(()) => ConvertOutcome::ok(vec![o]),
         Err(e) => ConvertOutcome::err(e),
     }
@@ -325,7 +358,7 @@ pub fn extract(path: &str, out_dir: &Path) -> ConvertOutcome {
     if let Err(e) = std::fs::create_dir_all(&dest) {
         return ConvertOutcome::err(e.to_string());
     }
-    match sh("7z", &["x", path, &format!("-o{}", dest.to_string_lossy()), "-y"]) {
+    match sh(seven_zip(), &["x", path, &format!("-o{}", dest.to_string_lossy()), "-y"]) {
         Ok(()) => ConvertOutcome::ok(vec![dest]),
         Err(e) => ConvertOutcome::err(e),
     }

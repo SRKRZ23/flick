@@ -13,7 +13,7 @@ pub mod format;
 pub mod graph;
 pub mod planner;
 
-pub use detect::{detect_engines, EngineStatus};
+pub use detect::{detect_engines, engines_home, resolve, search_dirs, EngineStatus};
 pub use exec::{convert_file, extract, run_tool, zip_together, ConvertOutcome};
 pub use format::{category_of, ext_of_path, popular_targets, tools_for, Category};
 pub use graph::{all_edges, Edge, Engine};
