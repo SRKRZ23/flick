@@ -5,7 +5,7 @@
 **A local, open-source file converter for macOS.**
 Drag a file, hold a key, drop it on a format. Everything runs on your Mac — nothing is ever uploaded.
 
-[Website](https://flick-mac.netlify.app) · [Download](https://github.com/SRKRZ23/flick/releases/latest) · MIT licensed
+[Download](https://github.com/SRKRZ23/flick/releases) · MIT licensed
 
 <br>
 
