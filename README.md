@@ -17,8 +17,13 @@ Drag a file, hold a key, drop it on a format. Everything runs on your Mac — no
 
 ## What it is
 
-Flick turns one file into another without an online uploader, an account, or a subscription.
-Drag any file onto the window and a wheel of options opens:
+Flick turns one file into another without an online uploader, an account, or a subscription —
+and without an app window. It lives in the menu bar; the wheel appears **over Finder, at your
+cursor**:
+
+1. Click a file in Finder (or several).
+2. Hold a key and start dragging it — or just hold the key for half a second.
+3. A wheel of options opens at the cursor. Drop the file on a slice, release over it, or click it.
 
 | Key | Wheel | Does |
 |-----|-------|------|
@@ -26,7 +31,15 @@ Drag any file onto the window and a wheel of options opens:
 | <kbd>⌘</kbd> Command | **Tools** | compress, resize, rotate, split, mute, poster frame… |
 | <kbd>⌃</kbd> Control | **Actions** | reveal, open, copy path, duplicate, extract |
 
-Click a slice — the result lands next to the original.
+The result lands next to the original. Switch the held key while the wheel is open to switch wheels.
+
+**Permissions.** Flick needs **no Accessibility permission**: cursor, button and modifier state come
+from CoreGraphics' session state, and the files come from Finder's own drag entering the wheel
+window. The first time it reads Finder's selection, macOS asks once for Automation access
+("Flick wants to control Finder") — allow it. No network, no telemetry.
+
+The menu bar icon opens the classic drop-zone window (**Open Flick…**) for drag-and-drop from
+anywhere, and quits Flick. Right-click a file in Finder → **Open With → Flick** also works.
 
 ## Why
 

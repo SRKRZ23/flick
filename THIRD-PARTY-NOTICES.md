@@ -29,7 +29,16 @@ for complying with that tool's license for the copy you bundle.
 | Dependency | License |
 |------------|---------|
 | Tauri (Rust + WRY/TAO) | MIT / Apache-2.0 |
+| tauri-plugin-global-shortcut | MIT / Apache-2.0 |
+| objc2, objc2-app-kit, objc2-foundation (AppKit bindings) | MIT |
 | serde | MIT / Apache-2.0 |
+
+Optional engines Flick can download on demand (pinned by URL and SHA-256 in
+`app/crates/flick-engine/engines.json`; each runs as a separate process): FFmpeg 9.0.2 static
+build (GPL-3.0, ffmpeg.martin-riedl.de), Pandoc 3.12.1 (GPL-2.0+), qpdf 12.4.2 (Apache-2.0),
+7-Zip 23.01 console (LGPL-2.1 + unRAR restriction), LibreOffice 26.8.1 (MPL-2.0).
+Built-in macOS tools used without any download: sips, afconvert, avconvert, textutil, cupsfilter,
+PDFKit (via osascript), zip/tar — part of macOS.
 
 The exact license of your FFmpeg build depends on how it was compiled (e.g. with
 `--enable-gpl`). The Homebrew `ffmpeg` formula is GPL. Verify with `ffmpeg -version`.
