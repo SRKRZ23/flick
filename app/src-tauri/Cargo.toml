@@ -1,0 +1,22 @@
+[package]
+name = "flick"
+version = "0.1.0"
+edition = "2021"
+description = "Flick — a local, open-source file converter for macOS"
+authors = ["Sardor Razikov"]
+license = "MIT"
+repository = "https://github.com/SRKRZ23/flick"
+default-run = "flick"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-global-shortcut = "2"
+serde = { version = "1", features = ["derive"] }
+flick-engine = { path = "../crates/flick-engine" }
+
+[[bin]]
+name = "flick"
+path = "src/main.rs"

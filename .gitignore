@@ -1,0 +1,23 @@
+# Rust
+/app/target
+/app/crates/*/target
+**/*.rs.bk
+
+# Tauri generated
+/app/src-tauri/gen
+
+# Node / Tauri CLI
+/app/node_modules
+/app/dist
+bun.lockb
+package-lock.json
+
+# Netlify
+.netlify
+
+# macOS
+.DS_Store
+
+# Build artifacts
+*.dmg
+*.app.zip

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flick</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar" data-tauri-drag-region>
+  <div class="brand"><span class="logo"></span> Flick</div>
+  <button id="theme" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">◐</button>
+</header>
+
+<main>
+  <!-- Landing / empty state -->
+  <section id="dropzone" class="dropzone">
+    <div class="dz-inner">
+      <div class="dz-ico" aria-hidden="true">⤓</div>
+      <h1>Drop files to convert</h1>
+      <p class="dz-sub">Drag any file from Finder onto this window.</p>
+      <div class="legend">
+        <span><kbd>⇧</kbd> Convert</span>
+        <span><kbd>⌘</kbd> Tools</span>
+        <span><kbd>⌃</kbd> Actions</span>
+      </div>
+      <p class="muted small">Everything runs on your Mac. Nothing is ever uploaded.</p>
+    </div>
+  </section>
+
+  <!-- Working state -->
+  <section id="stage" class="stage hidden">
+    <div class="files" id="files"></div>
+    <div class="modebar" id="modebar">
+      <button class="mode on" data-mode="convert"><kbd>⇧</kbd> Convert</button>
+      <button class="mode" data-mode="tools"><kbd>⌘</kbd> Tools</button>
+      <button class="mode" data-mode="actions"><kbd>⌃</kbd> Actions</button>
+    </div>
+    <div class="wheel-host" id="wheelHost" aria-label="Pick an action"></div>
+    <button id="reset" class="link">↺ drop other files</button>
+  </section>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+</main>
+
+<footer class="foot">
+  <div class="engines" id="engines"></div>
+  <a class="foot-link" id="ghLink" href="#">Open source · MIT</a>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

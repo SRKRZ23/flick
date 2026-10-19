@@ -1,0 +1,18 @@
+[package]
+name = "flick-engine"
+version = "0.1.0"
+edition = "2021"
+description = "Local file-conversion engine for Flick — plans and runs conversions by orchestrating installed CLI tools (ImageMagick, ffmpeg, LibreOffice, Pandoc, Ghostscript, qpdf, mupdf, poppler, 7-Zip)."
+license = "MIT"
+repository = "https://github.com/SRKRZ23/flick"
+
+# The engine never links any converter in-process — every tool is invoked as a
+# separate child process. That keeps copyleft engines (Ghostscript/AGPL, some
+# ffmpeg builds/GPL) at arm's length from this MIT code.
+
+[dependencies]
+serde = { version = "1.0.217", features = ["derive"] }
+
+[[example]]
+name = "smoke"
+path = "examples/smoke.rs"

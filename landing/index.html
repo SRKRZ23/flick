@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flick — the file converter that lives at your cursor</title>
+<meta name="description" content="Flick is a free, open-source, fully offline file converter for Mac. Drag a file, hold a key, drop it on a format. Images, video, audio, PDF, documents and archives — nothing is ever uploaded.">
+<meta property="og:title" content="Flick — flick a file, pick a format">
+<meta property="og:description" content="Free, open-source, offline file converter for Mac. Drag, hold a key, drop on a format. Nothing is uploaded.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#top" aria-label="Flick home"><span class="logo" aria-hidden="true"></span>Flick</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="#how">How it works</a>
+    <a href="#formats">Formats</a>
+    <a href="#open">Open source</a>
+    <a class="ghost-link" href="https://github.com/SRKRZ23/flick" id="gh-top" rel="noopener">★ Star</a>
+    <a class="btn btn-primary" href="#download">Download</a>
+  </nav>
+  <button class="theme-toggle" id="theme" aria-label="Toggle dark mode" title="Toggle theme">◐</button>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Free · Open source · 100% offline</p>
+      <h1>Flick a file.<br>Pick a format.<br><span class="accent">Done.</span></h1>
+      <p class="lede">Drag a file, hold a key, and a wheel of formats opens right at your cursor. Drop it on the one you want — the converted copy appears next to the original. Everything runs on your Mac. Nothing is ever uploaded.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg" href="#download">Download for Mac</a>
+        <a class="btn btn-outline btn-lg" href="https://github.com/SRKRZ23/flick" rel="noopener">View on GitHub</a>
+      </div>
+      <p class="microcopy">Apple Silicon · macOS 13+ · MIT licensed</p>
+    </div>
+
+    <div class="hero-demo">
+      <div class="demo-stage" id="stage" aria-label="Interactive demo: drag the file, hold Shift, drop on a format">
+        <div class="stage-hint" id="hint"><span id="hint-text">Drag the file</span><svg class="hint-arrow" viewBox="0 0 120 90" aria-hidden="true"><path d="M96 10C104 44 60 60 20 72M20 72l10-12M20 72l16 3"/></svg></div>
+        <div class="file-chip" id="chip" tabindex="0" role="button" aria-label="Sample file photo.jpg — drag it, or press Enter to open the format wheel">
+          <span class="chip-ico" id="chip-ico">🖼️</span>
+          <span class="chip-name" id="chip-name">photo.jpg</span>
+        </div>
+        <div class="keycaps" id="keycaps" aria-hidden="true">
+          <span class="keycap on" data-mode="convert"><kbd>⇧</kbd> Convert</span>
+          <span class="keycap" data-mode="tools"><kbd>⌘</kbd> Tools</span>
+          <span class="keycap" data-mode="actions"><kbd>⌃</kbd> Actions</span>
+        </div>
+      </div>
+      <p class="demo-note">All conversions on this page are simulated. The real app does them locally on your Mac.</p>
+    </div>
+  </section>
+
+  <section class="showcase">
+    <h2>The whole app, in a few seconds</h2>
+    <p class="section-sub">Drag, hold a key, drop it on a format. That's the entire gesture.</p>
+    <div class="showcase-video">
+      <video src="assets/hero.mp4" poster="assets/demo-poster.jpg" autoplay loop muted playsinline></video>
+    </div>
+  </section>
+
+  <section class="how" id="how">
+    <h2>Three keys, one gesture</h2>
+    <p class="section-sub">Start dragging any file, then tap a key. The wheel stays open until you drop.</p>
+    <div class="cards3">
+      <article class="card"><div class="card-key"><kbd>⇧</kbd></div><h3>Shift — Convert</h3><p>A wheel of every format that fits the file you're holding. Drop to convert; the copy lands beside the original.</p></article>
+      <article class="card"><div class="card-key"><kbd>⌘</kbd></div><h3>Command — Tools</h3><p>Compress, crop, trim, split and merge — the right tools for that exact kind of file, in one wheel.</p></article>
+      <article class="card"><div class="card-key"><kbd>⌃</kbd></div><h3>Control — Actions</h3><p>Move, copy, copy path, reveal — quick file actions without ever leaving your flow.</p></article>
+    </div>
+  </section>
+
+  <section class="formats" id="formats">
+    <h2>Dozens of everyday formats</h2>
+    <p class="section-sub">Images, video, audio, PDF, documents and archives — no Office or online uploader needed.</p>
+    <div class="format-grid">
+      <div class="fg-row"><h3>Images</h3><p>JPG · PNG · WebP · HEIC · AVIF · TIFF · BMP · GIF · SVG <span class="note">→ PDF export</span></p></div>
+      <div class="fg-row"><h3>Video</h3><p>MP4 · MOV · MKV · WebM · AVI · WMV · GIF <span class="note">→ MP3 export</span></p></div>
+      <div class="fg-row"><h3>Audio</h3><p>MP3 · M4A · WAV · FLAC · OGG · Opus · AIFF</p></div>
+      <div class="fg-row"><h3>PDF</h3><p>→ DOCX · PPTX · XLSX · JPG · PNG · TXT · EPUB <span class="note">merge · split · compress</span></p></div>
+      <div class="fg-row"><h3>Documents</h3><p>DOCX · ODT · RTF · Markdown · HTML · TXT · EPUB <span class="note">→ PDF</span></p></div>
+      <div class="fg-row"><h3>Spreadsheets</h3><p>XLSX · ODS · CSV · TSV <span class="note">→ PDF</span></p></div>
+      <div class="fg-row"><h3>Slides</h3><p>PPTX · ODP → PDF · PNG · JPG</p></div>
+      <div class="fg-row"><h3>Archives</h3><p>ZIP · 7Z · TAR · GZ <span class="note">extract &amp; create</span></p></div>
+    </div>
+  </section>
+
+  <section class="privacy">
+    <div class="privacy-inner">
+      <div class="privacy-copy">
+        <p class="eyebrow">Privacy</p>
+        <h2>Your files never leave your Mac.</h2>
+        <p>Online converters make you upload a copy of your file to a server you don't control — private documents, photos, and their metadata included. Flick doesn't have a server to upload to.</p>
+      </div>
+      <div class="privacy-points">
+        <div class="pp"><span class="pp-ico" aria-hidden="true">↑</span><h4>Uploading is the risk</h4><p>Once your file leaves your Mac, you have to trust how a stranger stores, processes and deletes it.</p></div>
+        <div class="pp"><span class="pp-ico" aria-hidden="true">⌂</span><h4>Flick works locally</h4><p>Every conversion runs on your own machine. No account, no telemetry, no network.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="open" id="open">
+    <h2>Free, and open source.</h2>
+    <p class="section-sub">Flick is MIT-licensed. Read the code, build it yourself, or send a pull request. No paywall, no "pro" tier.</p>
+    <div class="open-row">
+      <a class="btn btn-primary btn-lg" href="https://github.com/SRKRZ23/flick" rel="noopener">★ Star on GitHub</a>
+      <a class="btn btn-outline btn-lg" href="https://github.com/SRKRZ23/flick#readme" rel="noopener">Read the code</a>
+    </div>
+  </section>
+
+  <section class="download" id="download">
+    <div class="dl-card">
+      <h2>Get Flick</h2>
+      <ul class="dl-list">
+        <li>Every everyday format, converted locally</li>
+        <li>Convert, compress, crop, trim, split and merge</li>
+        <li>Free forever, open source, zero uploads</li>
+      </ul>
+      <a class="btn btn-primary btn-lg" href="https://github.com/SRKRZ23/flick/releases/latest" rel="noopener">Download for Mac</a>
+      <p class="dl-fine">Apple Silicon · macOS 13 or later · ~free · MIT</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <a class="brand" href="#top"><span class="logo" aria-hidden="true"></span>Flick</a>
+  <div class="foot-links">
+    <a href="https://github.com/SRKRZ23/flick" rel="noopener">GitHub</a>
+    <a href="#open">License (MIT)</a>
+    <a href="#formats">Formats</a>
+  </div>
+  <p class="foot-fine">Built on a Mac. Flick runs offline; your files stay yours.</p>
+</footer>
+
+<script src="assets/demo.js" defer></script>
+<script>
+(function(){var t=localStorage.getItem('flick-theme');if(t)document.documentElement.setAttribute('data-theme',t);
+document.getElementById('theme').addEventListener('click',function(){var d=document.documentElement,
+cur=d.getAttribute('data-theme'),next=cur==='dark'?'light':'dark';d.setAttribute('data-theme',next);
+try{localStorage.setItem('flick-theme',next)}catch(e){}});})();
+</script>
+</body>
+</html>

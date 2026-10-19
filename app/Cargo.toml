@@ -1,0 +1,12 @@
+[workspace]
+resolver = "2"
+members = ["crates/flick-engine", "src-tauri"]
+
+# "s" + thin LTO + strip gives a small binary without the heat/time of full
+# fat LTO (codegen-units=1). Kept modest on purpose per the hardware-safety rule.
+[profile.release]
+opt-level = "s"
+lto = "thin"
+strip = true
+codegen-units = 16
+panic = "abort"
