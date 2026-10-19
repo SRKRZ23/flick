@@ -17,6 +17,7 @@
 use serde::Serialize;
 use std::ffi::c_void;
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
+use std::sync::Mutex;
 use std::thread;
 use std::time::{Duration, Instant};
 use tauri::{AppHandle, Emitter, LogicalPosition, Manager, WebviewUrl, WebviewWindowBuilder};
@@ -126,6 +127,43 @@ fn finder_selection() -> Vec<String> {
             Vec::new()
         }
     }
+}
+
+/// The last selection read, with when it was read. Reading takes ~0.2–0.8 s, so
+/// it is started speculatively the moment a modifier or the mouse button goes
+/// down over Finder; by the time the wheel opens the answer is usually here.
+static SELECTION_CACHE: Mutex<Option<(Instant, Vec<String>)>> = Mutex::new(None);
+static FETCHING: AtomicBool = AtomicBool::new(false);
+const CACHE_MAX_AGE: Duration = Duration::from_secs(3);
+
+fn prefetch_selection() {
+    if FETCHING.swap(true, Ordering::SeqCst) {
+        return;
+    }
+    thread::spawn(|| {
+        let files = finder_selection();
+        if let Ok(mut c) = SELECTION_CACHE.lock() {
+            *c = Some((Instant::now(), files));
+        }
+        FETCHING.store(false, Ordering::SeqCst);
+    });
+}
+
+fn cached_selection() -> Option<Vec<String>> {
+    SELECTION_CACHE
+        .lock()
+        .ok()
+        .and_then(|c| c.as_ref().filter(|(t, _)| t.elapsed() < CACHE_MAX_AGE).map(|(_, f)| f.clone()))
+}
+
+/// Pay the JXA runtime's cold start once, at launch, instead of on the first gesture.
+fn warm_up_osascript() {
+    thread::spawn(|| {
+        let _ = std::process::Command::new("/usr/bin/osascript")
+            .args(["-l", "JavaScript", "-e", "ObjC.import('Foundation'); 1"])
+            .output();
+        log("osascript warmed up");
+    });
 }
 
 /// Only react while Finder is in front.
@@ -316,9 +354,18 @@ fn open_and_fetch(app: &AppHandle, x: f64, y: f64, mode: Mode, why: &str) {
     FILES_SENT.store(false, Ordering::SeqCst);
     log(&format!("open #{gen} ({why}) at ({x:.0},{y:.0}) mode={mode:?}"));
     open_wheel(app, x, y, mode);
+    // Instant answer when the speculative read already came back; otherwise read now.
+    if let Some(files) = cached_selection() {
+        if deliver_files(app, gen, "finder selection (cached)", files) {
+            return;
+        }
+    }
     let app2 = app.clone();
     thread::spawn(move || {
         let files = finder_selection();
+        if let Ok(mut c) = SELECTION_CACHE.lock() {
+            *c = Some((Instant::now(), files.clone()));
+        }
         if !deliver_files(&app2, gen, "finder selection", files) {
             log("finder selection: nothing delivered (empty, or wheel already closed)");
         }
@@ -338,6 +385,8 @@ pub fn start(app: AppHandle) {
         let mut dismiss_at: Option<Instant> = None;
         let mut safety_at: Option<Instant> = None;
         let mut over_ring: Option<bool> = None; // last click-through state sent
+        let mut prev_mode: Option<Mode> = None;
+        warm_up_osascript();
         log("poll thread started");
         loop {
             if let Some(s) = sample() {
@@ -346,6 +395,16 @@ pub fn start(app: AppHandle) {
                 if !open {
                     origin = None;
                 }
+
+                // Speculative selection read: a modifier or the button going down over
+                // Finder usually means a wheel is about to be asked for.
+                if !open
+                    && ((mode.is_some() && prev_mode.is_none() && !typing()) || (s.left_down && !prev_down))
+                    && finder_is_frontmost()
+                {
+                    prefetch_selection();
+                }
+                prev_mode = mode;
 
                 // --- button edges ---
                 if s.left_down && !prev_down {

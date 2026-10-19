@@ -176,23 +176,26 @@
   });
 
   // ---- Finder's drag session entering this window ----
+  // Positions in these events use a different coordinate base than our window, so
+  // hover and the drop target always come from the Rust cursor stream (`hot`).
   listen("tauri://drag-enter", function (e) {
     var pl = e.payload || {};
     log("drag-enter " + ((pl.paths || []).length) + " paths");
     setFiles(pl.paths || [], "os");
-    hover(fromPhysical(pl.position));
   });
-  listen("tauri://drag-over", function (e) { if (!busy) hover(fromPhysical((e.payload || {}).position)); });
-  listen("tauri://drag-leave", function () { if (!busy) highlight(-1); });
   listen("tauri://drag-drop", function (e) {
     var pl = e.payload || {};
-    dropped = true;
     if (pl.paths && pl.paths.length && !plan && !planning) setFiles(pl.paths, "os");
-    var i = indexAt(fromPhysical(pl.position));
-    log("drop at slice " + i + (plan ? "" : " (plan pending)"));
-    if (i < 0) { dropped = false; return; }
-    if (plan) pick(i);
-    else { var tries = 0; (function waitPlan() { if (plan) pick(i); else if (++tries < 40) setTimeout(waitPlan, 50); else invoke("hide_wheel"); })(); }
+    var i = hot;
+    if (i < 0 && plan && pendingPt) i = indexAt(pendingPt);
+    log("drop → slice " + i + (plan ? "" : " (plan pending)"));
+    if (plan) { if (i >= 0) { dropped = true; pick(i); } return; }   // else: the release fallback may still pick
+    // Plan still loading: remember the drop point and pick once the slices exist.
+    var pt = pendingPt, tries = 0;
+    (function waitPlan() {
+      if (plan) { var j = indexAt(pt); if (j >= 0) { dropped = true; pick(j); } }
+      else if (++tries < 40) setTimeout(waitPlan, 50);
+    })();
   });
 
   render();
